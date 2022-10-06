@@ -1,0 +1,39 @@
+name: Auto commit
+
+on:
+
+  push:
+    branches:
+      - auto_Merge_Upstream
+      
+  schedule:
+  - cron: “0 */6 * * * ”  # 每六小时自动提交一次，cron时间表写法可参考:https://crontab.guru/
+
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3      
+        with:
+         persist-credentials: false
+         fetch-depth: 0
+      - name: Set time zone
+        run: sudo timedatectl set-timezone 'Asia/Shanghai'
+        
+      - name: add remote
+          run: |
+          git remote add -t openwrt_official master git://git.openwrt.org/openwrt/openwrt.git
+      - name: set commiter
+        run: |
+          git config --local user.email "ryanhou24@gmail.com" 
+          git config --local user.name "Dedicatus5457" 
+          - name: auto Marge
+        run: |
+           git merge --squash remote/openwrt_official/master
+           git commit -m "[(bot)]: auto MergeUpstream"
+      - name: GitHub Push
+        uses: ad-m/github-push-action@master
+        with:
+          force-with-lease: true
+          directory: "."
+          github_token: ${{ secrets.GITHUB_TOKEN }}
