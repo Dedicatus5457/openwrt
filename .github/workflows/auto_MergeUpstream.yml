@@ -22,7 +22,7 @@ jobs:
         
       - name: add remote
           run: |
-          git remote add -t openwrt_official master git://git.openwrt.org/openwrt/openwrt.git
+            git remote add -t openwrt_official master git://git.openwrt.org/openwrt/openwrt.git
       - name: set commiter
         run: |
           git config --local user.email "ryanhou24@gmail.com" 
