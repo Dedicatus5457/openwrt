@@ -21,7 +21,7 @@ jobs:
         run: sudo timedatectl set-timezone 'Asia/Shanghai'
         
       - name: add remote
-        run: |
+          run: |
             git remote add -t openwrt_official master git://git.openwrt.org/openwrt/openwrt.git
       - name: set commiter
         run: |
